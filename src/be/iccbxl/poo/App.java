@@ -3,24 +3,25 @@ package be.iccbxl.poo;
 import be.iccbxl.poo.ui.IUi;
 import be.iccbxl.poo.ui.UiConsole;
 
-public class Main {
+public class App {
 	
 	private static IUi ui;
 	
-    public Main() {
+    public App() {
 		ui = new UiConsole();
 	}
 
 	public static void main( String[] args )
     {
         //Avant lancement du programme
-		System.out.println( "Bonjour et bienvenue!" );
-        new Main();
+		System.out.println( "Lancement de l'application." );
+        
+		new App();
         
         //Lancement du programme
         ui.run();
         
         //Après la fin du programme
-        System.out.println("Merci d'avoir utilisé ce programme.");
+        System.out.println("Fin du programme.");
     }
 }

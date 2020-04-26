@@ -14,26 +14,21 @@ public class Metier implements IMetier {
 	private IDao dao;
 	
 	private List<Person> people;
+	private List<Book> books;
 	
 	public Metier() {
 		people = new ArrayList<Person>();
+		books = new ArrayList<Book>();
 		dao = new DaoFile();
 	}
 
-	public int computeRemainingDays(Book b) {	
-		int nbRemainingDays = 0;
-		
-		//Book book = dao.findBook(b);
-		
-		//Quel est la date d'emprunt?
-		//quel est la durée d'emprunt?
-		//Calcul du nombre de jours restants
-		
-		return nbRemainingDays;
+	public int computeRemainingDays(Book b) {		
+		Book book = dao.find(b);	
+		return book.computeRemainingDays();
 	}
 
 	public List<Person> getMembres() {
-		return dao.findAll();
+		return dao.findAllPeople();
 	}
 
 	public void register(Person p) {
@@ -50,6 +45,22 @@ public class Metier implements IMetier {
 
 	public void unregister(Person p) {
 		dao.delete(p);
+	}
+
+	public List<Book> getBooks() {
+		return dao.findAllBooks();
+	}
+
+	public void register(Book b) {
+		dao.save(b);
+	}
+
+	public void update(Book b) {
+		dao.delete(b);
+	}
+
+	public void unregister(Book b) {
+		dao.delete(b);
 	}
 
 }
