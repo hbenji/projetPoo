@@ -13,6 +13,8 @@ public interface IDao {
 	//Read operations
 	public Person find(Person p);
 	public List<Person> findAllPeople();
+	public List<Person> findAllPeopleCsv();
+	public List<Person> findAllPeopleXml();
 	public Person findByIdPerson(UUID id);
 	public List<Person> findByPerson(String property, String value);	
 	//Delete operation
@@ -22,11 +24,15 @@ public interface IDao {
 	public void update(Person p);	
 	//Create operation
 	public void save(Person p);
+	public boolean savePeopleCsv();
+	public boolean savePeopleXml();
 	
 	/*Book*/
 	
 	//Read operations
 	public Book find(Book b);
+	public List<Book> findAllBooksCsv();
+	public List<Book> findAllBooksXml();
 	public List<Book> findAllBooks();
 	public Book findByIdBook(UUID id);
 	public List<Book> findByBook(String property, String value);		
@@ -37,6 +43,8 @@ public interface IDao {
 	public void update(Book b);		
 	//Create operation
 	public void save(Book b);
+	public boolean saveBooksCsv();
+	public boolean saveBooksXml();
 	
 	
 }
