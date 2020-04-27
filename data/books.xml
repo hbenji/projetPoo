@@ -1,15 +1,6 @@
 <list>
   <book>
-    <id>0f32cb8b-b92f-4809-bfff-c1237a14ebe7</id>
-    <title>Algo en langage c</title>
-    <author>sedgewick</author>
-    <totalPages>350</totalPages>
-    <loanPeriod>14</loanPeriod>
-    <rentalPrice>5.0</rentalPrice>
-    <language>fr</language>
-  </book>
-  <book>
-    <id>0f32cb8b-b92f-4809-bfff-c1237a14ebe7</id>
+    <id>0f32cb8b-b92f-4809-bfff-c1237a14ebe8</id>
     <title>Algo en langage c</title>
     <author>sedgewick</author>
     <totalPages>350</totalPages>

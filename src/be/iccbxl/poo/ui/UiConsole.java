@@ -43,14 +43,18 @@ public class UiConsole implements IUi {
 				System.out.println("1 - Créer un membre et le sauver dans un fichier xml et csv\n" 
 				   +"2 - Créer un livre et le sauver dans un fichier xml et csv\n"
 				   +"3 - Emprunter un livre\n"
-				   +"4 - Charger un fichier de membres (XML) (inutile vu qu'il y a un chargement des membres avant une action)\n"
+				   +"4 - Charger un fichier de membres (inutile vu qu'il y a un chargement des membres avant une action et l'option 'deserialiser')\n"
 				   +"5 - Modifier un membre\n"
 				   +"6 - Supprimer un membre\n"
-				   +"7 - Charger un fichier de livres (XML) (inutile vu qu'il y a un chargement des livres avant une action)\n"
+				   +"7 - Charger un fichier de livres (inutile vu qu'il y a un chargement des livres avant une action et l'option 'deserialiser')\n"
 				   +"8 - Modifier un livre\n"
 				   +"9 - Supprimer un livre\n"
 				   +"10 - Afficher les livres\n"
-				   +"11 - Affichier les membres\n"
+				   +"11 - Afficher les membres\n"
+				   +"12 - Serialiser les membres\n"
+				   +"13 - Serialiser les livres\n"
+				   +"14 - Deserialiser les membres\n"
+				   +"15 - Deserialiser les livres\n"
 				   +"0 - Quitter");
 			
 			//Lire le choix de l'utilisateur
@@ -59,6 +63,8 @@ public class UiConsole implements IUi {
 			
 			//Traiter la commande de l'utilisateur						
 			switch(cmd) {
+				case 0:
+					return;
 				case 1 :
 					//inscription membre
 					System.out.print("Veuillez entrer le nom:");
@@ -149,12 +155,12 @@ public class UiConsole implements IUi {
 					
 					break;
 				case 4 :
-					//Charger un fichier de membres (XML)
+					//Charger un fichier de membres serialisés (le chargement depuis un xml est en commentaire)
 					metier.getMembres();	//xml
 					message = "Chargement des membres du fichier OK.";
 					break;
 				case 5 : 
-					//Modifier un membre + sauvegarde xml/csv
+					//Modifier un membre + sauvegarde xml/csv/serialisé
 					
 					//Afficher les membres
 					//Récupérer la liste des membres
@@ -198,12 +204,12 @@ public class UiConsole implements IUi {
 					message = "Suppression du membre OK.";
 					break;
 				case 7 : 
-					//Charger un fichier de livres (XML)
+					//Charger un fichier de livres serialisé (le chargement depuis un xml est en commentaire)
 					metier.getBooks();
 					message = "Chargement des livres du fichier OK.";
 					break;
 				case 8 : 
-					//Modifier un livre + sauvegarde xml/csv
+					//Modifier un livre + sauvegarde xml/csv/serialisé
 					
 					//Récupérer la liste des livres
 					books = metier.getBooks();
@@ -223,6 +229,7 @@ public class UiConsole implements IUi {
 					
 					//Proposer à l'utilisateur de modifier les champs du livre
 					bookUpdate.setAuthor("testUpdateAuthor");
+					bookUpdate.setTitle("Updatetitle");
 					
 					metier.update(bookUpdate);
 					
@@ -255,14 +262,44 @@ public class UiConsole implements IUi {
 					//afficher les livres
 					this.books = metier.getBooks();
 					this.printBooks();
+					
+					message = "Fin affichage des livres.";
 					break;
 				case 11:
 					//afficher les membres
 					this.membres = metier.getMembres();
 					this.printMembers();
+					
+					message = "Fin affichage des membres.";
+					break;
+				case 12:
+					//serialiser les membres dans un fichier
+					metier.serializablePeople();
+					
+					message = "Serialisation des membres OK.";
+					break;
+				case 13:
+					//serialiser les livres dans un fichier
+					metier.serializableBooks();
+					
+					message = "Serialisation des livres OK.";
+					break;
+				case 14:
+					//Déserialiser les membres dans un fichier
+					this.membres = metier.deserializablePeople();
+					this.printMembers();
+					
+					message = "Deserialisation des membres OK.";
+					break;
+				case 15:
+					//Déserialiser les livres dans un fichier
+					this.books = metier.deserializableBooks();
+					this.printBooks();
+					
+					message = "Deserialisation des livres OK.";
 					break;
 				default:
-					message = "Erreur !!!";
+					message = "Erreur !!! Veuillez recommencer et faire un choix.";
 					break;
 			}
 			
@@ -278,6 +315,7 @@ public class UiConsole implements IUi {
 		while(it.hasNext()) {
 			Person p = it.next();			
 			System.out.println(i+") "+"Nom: "+p.getName() + "\tInscrit le: " + p.getRegistrationDate());
+			i++;
 		}
 	}
 	
@@ -287,6 +325,7 @@ public class UiConsole implements IUi {
 		while(it.hasNext()) {
 			Book b = it.next();			
 			System.out.println(i+") "+b.toString());
+			i++;
 		}
 	}
 }

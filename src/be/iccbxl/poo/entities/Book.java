@@ -1,10 +1,12 @@
 package be.iccbxl.poo.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.UUID;
 
-public class Book {
+public class Book implements Serializable{
+
 	protected UUID id;
 	protected String title;
 	protected String author;

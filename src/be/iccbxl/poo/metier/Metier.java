@@ -19,7 +19,7 @@ public class Metier implements IMetier {
 	public Metier() {
 		people = new ArrayList<Person>();
 		books = new ArrayList<Book>();
-		dao = new DaoFile();
+		dao = new DaoFile("data\\membres2.csv", "data\\membres.xml", "data\\books.csv", "data\\books.xml");
 	}
 
 	public int computeRemainingDays(Book b) {		
@@ -56,11 +56,27 @@ public class Metier implements IMetier {
 	}
 
 	public void update(Book b) {
-		dao.delete(b);
+		dao.update(b);
 	}
 
 	public void unregister(Book b) {
 		dao.delete(b);
+	}
+	
+	public void serializableBooks() {
+		dao.serializableBooks();
+	}
+	
+	public void serializablePeople() {
+		dao.serializablePeople();
+	}
+	
+	public List<Book> deserializableBooks() {
+		return dao.deserializableBooks();
+	}
+	
+	public List<Person> deserializablePeople() {
+		return dao.deserializablePeople();
 	}
 
 }

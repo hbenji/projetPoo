@@ -1,1 +1,30 @@
-<list/>
+<list>
+  <person>
+    <id>15c3cbaa-42e6-4a00-996e-2e6ffc6186ac</id>
+    <name>Testupdatenom</name>
+    <maxBooks>3</maxBooks>
+    <registrationDate>2020-04-27</registrationDate>
+    <books/>
+  </person>
+  <person>
+    <id>446aacab-b1b1-4de4-9afd-e235e42d1a91</id>
+    <name>benjamin</name>
+    <maxBooks>3</maxBooks>
+    <registrationDate>2020-04-27</registrationDate>
+    <books/>
+  </person>
+  <person>
+    <id>2c26bae1-6411-49a0-b368-f721a1e63a3c</id>
+    <name>Jean</name>
+    <maxBooks>3</maxBooks>
+    <registrationDate>2020-04-27</registrationDate>
+    <books/>
+  </person>
+  <person>
+    <id>a8936f2a-2ff1-4bcc-80da-ad7fea1b0057</id>
+    <name>Pierre</name>
+    <maxBooks>3</maxBooks>
+    <registrationDate>2020-04-27</registrationDate>
+    <books/>
+  </person>
+</list>

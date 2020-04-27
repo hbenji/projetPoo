@@ -1,10 +1,12 @@
 package be.iccbxl.poo.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Person {
+public class Person implements Serializable{
+	
 	protected UUID id;
 	private String name;
 	private byte maxBooks;

@@ -26,6 +26,9 @@ public interface IDao {
 	public void save(Person p);
 	public boolean savePeopleCsv();
 	public boolean savePeopleXml();
+	//Serializable
+	public void serializablePeople();
+	public List<Person> deserializablePeople();
 	
 	/*Book*/
 	
@@ -45,6 +48,8 @@ public interface IDao {
 	public void save(Book b);
 	public boolean saveBooksCsv();
 	public boolean saveBooksXml();
-	
+	//Serializable
+	public void serializableBooks();
+	public List<Book> deserializableBooks();
 	
 }

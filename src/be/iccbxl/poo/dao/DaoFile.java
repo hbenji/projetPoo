@@ -1,9 +1,14 @@
 package be.iccbxl.poo.dao;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -115,7 +120,7 @@ public class DaoFile implements IDao {
 					xs.alias("person", Person.class);
 					
 					//Lecture
-					this.people = (ArrayList<Person>) xs.fromXML(fr);					
+					this.people = (ArrayList<Person>)xs.fromXML(fr);					
 				} finally {
 					fr.close();
 				}
@@ -130,21 +135,9 @@ public class DaoFile implements IDao {
 	}
 
 	public List<Person> findAllPeople(){
-		return this.findAllPeopleXml();		
+		//return this.findAllPeopleXml();	
+		return this.deserializablePeople();	//pour utiliser la serialisation
 	}
-	
-	/*public List<Person> findAllPeople() {
-		//TODO écrire le code de lecture du fichier
-		Person bob = new Person(UUID.fromString("a7aa0ae7-9ce3-44bc-a72a-894edb9a4653"), "Bob Smith");
-		Person julie = new Person(UUID.fromString("02417998-c4fb-41d8-96b3-6b7d0db7aa97"), "Julie Dern");
-		Person mike = new Person(UUID.fromString("3a50a4dc-f518-427b-b24e-078e252a6e4a"), "Mike Dougs");
-		
-		this.people.add(bob);
-		this.people.add(julie);
-		this.people.add(mike);
-		
-		return people;
-	}*/
 
 	public Person findByIdPerson(UUID id) {
 		findAllPeople();
@@ -185,6 +178,7 @@ public class DaoFile implements IDao {
 		//Sauvegarde dans les fichiers
 		this.savePeopleXml();
 		this.savePeopleCsv();
+		this.serializablePeople();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 	}
 
 	public void delete(Person p) {
@@ -214,6 +208,7 @@ public class DaoFile implements IDao {
 		//Sauvegarde dans les fichiers
 		this.savePeopleXml();
 		this.savePeopleCsv();
+		this.serializablePeople();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 	}
 
 	public void save(Person p) {
@@ -239,6 +234,7 @@ public class DaoFile implements IDao {
 		//Sauvegarde dans les fichiers
 		this.savePeopleXml();
 		this.savePeopleCsv();
+		this.serializablePeople();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 	}
 	
 	public boolean savePeopleCsv() {
@@ -314,6 +310,49 @@ public class DaoFile implements IDao {
 		return false;
 	}
 	
+	public void serializablePeople() {
+		findAllPeople(); //pour avoir des membres recherche dans fichier xml
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("data\\members.ser");
+					
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(this.people);
+						
+			oos.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Person> deserializablePeople() {
+
+		try {
+			FileInputStream fos = new FileInputStream("data\\members.ser");
+					
+			ObjectInputStream ois = new ObjectInputStream(fos);
+
+			this.people = (ArrayList<Person>)ois.readObject();
+						
+			ois.close();
+			
+			return this.people;
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
 	/*BOOKS*/
 	
 	public List<Book> findAllBooksCsv(){
@@ -365,7 +404,7 @@ public class DaoFile implements IDao {
 		
 		return this.books;
 	}
-	
+		
 	@SuppressWarnings("unchecked")
 	public List<Book> findAllBooksXml(){
 
@@ -384,7 +423,7 @@ public class DaoFile implements IDao {
 					xs.alias("book", Book.class);
 					
 					//Lecture
-					this.books = (ArrayList<Book>) xs.fromXML(fr);					
+					this.books = (ArrayList<Book>)xs.fromXML(fr);					
 				} finally {
 					fr.close();
 				}
@@ -403,20 +442,9 @@ public class DaoFile implements IDao {
 	}
 
 	public List<Book> findAllBooks(){
-		return this.findAllBooksXml();
+		//return this.findAllBooksXml();
+		return this.deserializableBooks();	//pour utiliser la serialisation
 	}
-/*	public List<Book> findAllBooks() {
-		//TODO écrire le code de lecture du fichier
-		Book bob = new Book(UUID.fromString("a7aa0ae7-9ce3-44bc-a72a-894edb9a4653"), "Bob Smith", "zrz", (short)5, "apou");
-		Book julie = new Book(UUID.fromString("02417998-c4fb-41d8-96b3-6b7d0db7aa97"), "Julie Dern", "zrz", (short)5, "apou");
-		Book mike = new Book(UUID.fromString("3a50a4dc-f518-427b-b24e-078e252a6e4a"), "Mike Dougs", "zrz", (short)5, "apou");
-			
-		this.books.add(bob);
-		this.books.add(julie);
-		this.books.add(mike);
-				
-		return this.books;
-	}*/
 
 	public Book findByIdBook(UUID id) {
 		findAllBooks();
@@ -457,6 +485,7 @@ public class DaoFile implements IDao {
 		//Sauvegarde dans les fichiers
 		this.saveBooksXml();
 		this.saveBooksCsv();
+		this.serializableBooks();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 		
 	}
 
@@ -470,26 +499,28 @@ public class DaoFile implements IDao {
 		findAllBooks();
 		
 		boolean trouve = false;
-		Book currentPerson = null;
+		Book currentBook = null;
 		Iterator<Book> it = books.iterator();
 		
 		while(it.hasNext()) {
-			currentPerson = it.next();
+			currentBook = it.next();
 			
-			if(currentPerson.getId().equals(b.getId())) {
+			if(currentBook.getId().equals(b.getId())) {
 				it.remove();
 				trouve = true;
+				System.out.println("trouvé");
 			}
 		}
 		
 		if(trouve) {
 			books.add(b);
+			System.out.println("ajout");
 		}
 		
 		//Sauvegarde dans les fichiers
 		this.saveBooksXml();
 		this.saveBooksCsv();
-		
+		this.serializableBooks();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 	}
 
 	@Override
@@ -497,13 +528,13 @@ public class DaoFile implements IDao {
 		findAllBooks();
 		
 		boolean trouve = false;
-		Book currentPerson = null;
+		Book currentBook = null;
 		Iterator<Book> it = books.iterator();
 		
 		while(it.hasNext()) {
-			currentPerson = it.next();
+			currentBook = it.next();
 			
-			if(currentPerson.getId().equals(b.getId())) {
+			if(currentBook.getId().equals(b.getId())) {
 				update(b);
 				return;
 			}
@@ -516,6 +547,7 @@ public class DaoFile implements IDao {
 		//Sauvegarde dans les fichiers
 		this.saveBooksXml();
 		this.saveBooksCsv();	
+		this.serializableBooks();//+ serialisation on est pas obligé de faire savexml ET savecsv ET serialisation on peut juste faire serialisation
 	}
 	
 	public boolean saveBooksCsv() {
@@ -592,4 +624,45 @@ public class DaoFile implements IDao {
 	}
 
 
+	public void serializableBooks() {
+		findAllBooks();	//pour avoir des livres recherche dans fichier xml
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("data\\books.ser");
+					
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(this.books);						
+			
+			oos.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> deserializableBooks() {
+		try {
+			FileInputStream fos = new FileInputStream("data\\books.ser");
+					
+			ObjectInputStream ois = new ObjectInputStream(fos);
+						
+			this.books = (ArrayList<Book>)ois.readObject();
+						
+			ois.close();
+			
+			return this.books;
+			
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
